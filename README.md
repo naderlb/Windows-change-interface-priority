@@ -30,7 +30,7 @@ This produces a self-contained **win-x64** output folder (includes `InterfaceMet
 ## Contributing
 
 - **Nader Barakat**
-- **Andreas Karamanous**
+- **Andreas Karamanos**
 
 ## License
 
