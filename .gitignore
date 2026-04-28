@@ -1,0 +1,24 @@
+## Local tooling / secrets (not pushed)
+devtools/
+
+## Build outputs
+[Bb]in/
+[Oo]bj/
+**/publish*/
+**/publish-*/
+
+## Runtime logs next to exe
+**/logs/
+*.log
+
+## IDE / OS
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+[Dd]esktop.ini
+
+## Crashpads / caches
+*.cache.json

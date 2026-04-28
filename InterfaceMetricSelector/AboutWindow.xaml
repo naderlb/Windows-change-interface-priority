@@ -1,0 +1,24 @@
+<Window x:Class="InterfaceMetricSelector.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="About" Height="280" Width="400" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner" Background="#161A22" Foreground="#F0F3F8">
+    <Border Padding="24">
+        <StackPanel>
+            <TextBlock Text="Interface Metric Selector" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,8"/>
+            <TextBlock Text="View and edit IPv4 interface metrics, addresses, and adapter details." FontSize="12" TextWrapping="Wrap" Opacity=".85" Margin="0,0,0,12"/>
+            <TextBlock FontSize="12" Margin="0,0,0,4"><Run Text="Made by "/><Run Text="Nader Barakat" FontWeight="SemiBold"/></TextBlock>
+            <StackPanel Margin="8,4,0,8">
+                <TextBlock Margin="0,2">Nader Barakat</TextBlock>
+                <TextBlock Margin="0,2">
+                  <Hyperlink NavigateUri="https://www.naderb.org/" RequestNavigate="Hyperlink_RequestNavigate">
+                    https://www.naderb.org
+                  </Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="0,10,0,0" Opacity=".85">Contributor: Andreas Karamanous</TextBlock>
+            </StackPanel>
+            <Button Content="Close" Margin="0,12,0,0" Width="96" HorizontalAlignment="Right"
+                    Click="Close_Click" Padding="12,8" Background="#2A3140" Foreground="#F0F3F8" BorderThickness="0"/>
+        </StackPanel>
+    </Border>
+</Window>

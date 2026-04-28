@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="InterfaceMetricSelector.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:services="clr-namespace:InterfaceMetricSelector.Services"
+        Title="Interface Metric Selector" MinHeight="420" MinWidth="1140"
+        Background="{StaticResource BgDeep}" Foreground="{StaticResource TextPrimary}"
+        WindowStartupLocation="CenterScreen">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Border Grid.Row="0" Padding="16,10" Background="{StaticResource BgPanel}"
+            BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderSubtle}">
+      <DockPanel LastChildFill="False">
+        <StackPanel DockPanel.Dock="Left">
+          <TextBlock Text="Interface Metric Selector" Style="{StaticResource HeaderText}"/>
+          <TextBlock Margin="0,4,0,0" Foreground="{StaticResource TextMuted}" FontSize="12"
+                     Text="IPv4 metrics (lowest preferred) · table sorted by metric · run as Administrator to apply"/>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+          <TextBlock x:Name="LastUpdatedText" VerticalAlignment="Center" Margin="0,0,14,0"
+                     Foreground="{StaticResource TextMuted}" FontSize="11"/>
+          <Button x:Name="RefreshBtn" Content="Refresh" Padding="18,8" Style="{StaticResource BtnPrimary}" Click="Refresh_OnClick"/>
+          <Button Margin="10,0,0,0" Content="About" Style="{StaticResource BtnGhost}" Click="About_OnClick"/>
+        </StackPanel>
+      </DockPanel>
+    </Border>
+    <DataGrid x:Name="AdapterGrid" Grid.Row="1" Margin="12,10"
+              ItemsSource="{Binding Adapters}"
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              CanUserDeleteRows="False"
+              CanUserReorderColumns="True"
+              CanUserResizeRows="False"
+              CanUserSortColumns="False"
+              SelectionMode="Single"
+              BorderThickness="1">
+      <DataGrid.Columns>
+        <DataGridTemplateColumn Width="28" CanUserResize="False" IsReadOnly="True">
+          <DataGridTemplateColumn.Header>
+            <TextBlock Text=" " ToolTip="Type"/>
+          </DataGridTemplateColumn.Header>
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="{x:Type services:AdapterVm}">
+              <TextBlock Text="{Binding IconGlyph}" FontFamily="Segoe MDL2 Assets" FontSize="15"
+                         Foreground="{StaticResource Accent}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                         ToolTip="{Binding KindLabel}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTextColumn Binding="{Binding KindLabel}" Header="Kind" Width="72" IsReadOnly="True"
+                            ElementStyle="{StaticResource DgCellWrap}"/>
+        <DataGridTextColumn Binding="{Binding InterfaceIndex}" Header="#" Width="40" IsReadOnly="True"/>
+        <DataGridTextColumn Binding="{Binding Alias}" Header="Alias" Width="140" IsReadOnly="True"
+                            ElementStyle="{StaticResource DgCellWrap}"/>
+        <DataGridTextColumn Binding="{Binding InterfaceTypeDisplay}" Header="Interface type" Width="128" IsReadOnly="True"
+                            ElementStyle="{StaticResource DgCellTooltip}"/>
+        <DataGridTextColumn Binding="{Binding ConnectUsing}" Header="Connect using" Width="220" MinWidth="160" IsReadOnly="True"
+                            ElementStyle="{StaticResource DgCellTooltip}"/>
+        <DataGridTextColumn Binding="{Binding Metric}" Header="Metric" Width="48" IsReadOnly="True"/>
+        <DataGridTemplateColumn Header="Set" Width="56" IsReadOnly="False">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="{x:Type services:AdapterVm}">
+              <TextBox Text="{Binding DraftMetric, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       VerticalContentAlignment="Center" Padding="2,1" FontFamily="Consolas" FontSize="11"
+                       Background="#252F45" Foreground="{StaticResource TextPrimary}" BorderBrush="{StaticResource BorderSubtle}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="Apply" Width="66" CanUserResize="False" IsReadOnly="True">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="{x:Type services:AdapterVm}">
+              <Button Content="Apply" Style="{StaticResource BtnMini}" Click="ApplyMetric_OnClick"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="State" Width="76" IsReadOnly="True">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="{x:Type services:AdapterVm}">
+              <TextBlock Text="{Binding ActiveLabel}" VerticalAlignment="Center"
+                         Foreground="{Binding IsActive, Converter={StaticResource ActiveFg}}" FontSize="11"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="IPv4" Width="*" MinWidth="120" IsReadOnly="True">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="{x:Type services:AdapterVm}">
+              <DockPanel LastChildFill="True">
+                <Button DockPanel.Dock="Right" Content="&#xE16E;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                        Style="{StaticResource BtnMini}" ToolTip="Copy first IPv4"
+                        Click="CopyIp_OnClick" Padding="4,2" Margin="4,0,0,0"/>
+                <TextBlock Text="{Binding IPv4Addresses}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"
+                           FontFamily="Consolas" FontSize="10.5" ToolTip="{Binding IPv4Addresses}"/>
+              </DockPanel>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="MAC" Width="130" IsReadOnly="True">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="{x:Type services:AdapterVm}">
+              <DockPanel LastChildFill="True">
+                <Button DockPanel.Dock="Right" Content="&#xE16E;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                        Style="{StaticResource BtnMini}" ToolTip="Copy MAC"
+                        Click="CopyMac_OnClick" Padding="4,2" Margin="4,0,0,0"/>
+                <TextBlock Text="{Binding Mac}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"
+                           FontFamily="Consolas" FontSize="10.5" ToolTip="{Binding Mac}"/>
+              </DockPanel>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTextColumn Binding="{Binding CombinedIpv4DefaultMetric, TargetNullValue=-}"
+                            Header="Def sum" Width="58" IsReadOnly="True"
+                            ElementStyle="{StaticResource DgCellMuted}"/>
+        <DataGridTemplateColumn Header="Hints" Width="88" IsReadOnly="True">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="{x:Type services:AdapterVm}">
+              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Border Padding="4,1" CornerRadius="3" Background="#293044" Margin="0,0,4,0"
+                        Visibility="{Binding IsBestOutbound, Converter={StaticResource BoolVis}}">
+                  <TextBlock FontSize="9" Foreground="{StaticResource Accent}">Probe</TextBlock>
+                </Border>
+                <Border Padding="4,1" CornerRadius="3" Background="#293044"
+                        Visibility="{Binding WinsDefaultComparison, Converter={StaticResource BoolVis}}">
+                  <TextBlock FontSize="9" Foreground="{StaticResource OkGreen}">Default</TextBlock>
+                </Border>
+              </StackPanel>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+      </DataGrid.Columns>
+    </DataGrid>
+    <Border Grid.Row="2" Padding="12,8" Background="#141821" BorderBrush="{StaticResource BorderSubtle}" BorderThickness="0,1,0,0">
+      <TextBlock VerticalAlignment="Center" Foreground="{StaticResource TextMuted}" FontSize="11">
+        <Run Text="Interface Metric Selector — Nader Barakat — "/>
+        <Hyperlink NavigateUri="https://www.naderb.org/" RequestNavigate="FooterLink_RequestNavigate">naderb.org</Hyperlink>
+      </TextBlock>
+    </Border>
+    <Border x:Name="BusyOverlay" Grid.RowSpan="3" Visibility="Collapsed" Background="#B212151C" Panel.ZIndex="50">
+      <Border Background="#262E3D" CornerRadius="10" Padding="28,22" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel>
+          <ProgressBar Width="200" Height="6" IsIndeterminate="True"/>
+          <TextBlock Margin="0,10,0,0" HorizontalAlignment="Center" Foreground="#E6F0FF" FontSize="12">Refreshing…</TextBlock>
+        </StackPanel>
+      </Border>
+    </Border>
+  </Grid>
+</Window>
