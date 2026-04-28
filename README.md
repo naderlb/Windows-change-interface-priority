@@ -8,7 +8,7 @@ This repository holds the **application source** (`InterfaceMetricSelector/` plu
 
 ## Download
 
-Installers or portable builds: **[naderb.org](https://www.naderb.org/)**
+Installers or portable builds: **[www.naderb.org](https://www.naderb.org/)**
 
 ## Features
 
@@ -38,4 +38,4 @@ This produces a self-contained **win-x64** output folder (includes `InterfaceMet
 
 ---
 
-**Website:** [naderb.org](https://www.naderb.org/)
+**Website:** [www.naderb.org](https://www.naderb.org/)
