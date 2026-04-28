@@ -15,7 +15,7 @@
                     https://www.naderb.org
                   </Hyperlink>
                 </TextBlock>
-                <TextBlock Margin="0,10,0,0" Opacity=".85">Contributor: Andreas Karamanous</TextBlock>
+                <TextBlock Margin="0,10,0,0" Opacity=".85">Contributor: Andreas Karamanos</TextBlock>
             </StackPanel>
             <Button Content="Close" Margin="0,12,0,0" Width="96" HorizontalAlignment="Right"
                     Click="Close_Click" Padding="12,8" Background="#2A3140" Foreground="#F0F3F8" BorderThickness="0"/>
